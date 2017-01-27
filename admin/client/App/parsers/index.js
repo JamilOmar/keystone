@@ -1,24 +1,27 @@
-import { filtersParser, filterParser } from './filters.js';
+import { filtersParser, filterParser, createFilterObject } from './filters.js';
 
 function columnsParser (columns, currentList) {
-	if (!columns) return currentList.expandColumns(currentList.defaultColumns);
 	if (!currentList) {
 		console.warn('No currentList is selected');
 		return;
+	}
+	if (!columns || columns.length === 0) {
+		return currentList.expandColumns(currentList.defaultColumns);
 	}
 	return currentList.expandColumns(columns);
 };
 
 function sortParser (path, currentList) {
-	if (!path) return currentList.expandSort(currentList.defaultSort);
 	if (!currentList) {
 		console.warn('No currentList is selected');
 		return;
 	}
+	if (!path) return currentList.expandSort(currentList.defaultSort);
 	return currentList.expandSort(path);
 }
 
 export {
+	createFilterObject,
 	filtersParser,
 	filterParser,
 	sortParser,

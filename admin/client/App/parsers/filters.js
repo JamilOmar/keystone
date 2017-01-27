@@ -1,3 +1,6 @@
+import isPlainObject from 'lodash/isPlainObject';
+import isArray from 'lodash/isArray';
+import isObject from 'lodash/isObject';
 
 export function filtersParser (filters, currentList) {
 	if (!filters) return [];
@@ -6,7 +9,7 @@ export function filtersParser (filters, currentList) {
 		try {
 			filters = JSON.parse(filters);
 		} catch (e) {
-			console.log('invalid filters provided');
+			console.log('Invalid filters provided', filters);
 			return;
 		}
 	}
@@ -24,9 +27,15 @@ export function filtersParser (filters, currentList) {
 }
 
 export function filterParser ({ path, value }, activeFilters, currentList) {
+	if (!activeFilters || !isArray(activeFilters)) {
+		console.warn('activeFilters must be an array');
+		return;
+	}
+	if (!currentList || !isObject(currentList) || isArray(currentList)) {
+		console.warn('currentList must be a plain object', currentList);
+		return;
+	}
 	let filter = activeFilters.filter(i => i.field.path === path)[0];
-	console.log(path, value);
-	console.log(filter);
 	if (filter) {
 		filter.value = value;
 	} else {
@@ -43,12 +52,19 @@ export function filterParser ({ path, value }, activeFilters, currentList) {
 * the file that uses it.
 */
 
-function createFilterObject (path, value, currentListFields) {
+export function createFilterObject (path, value, currentListFields) {
+	if (!currentListFields || !isPlainObject(currentListFields)) {
+		console.warn('currentListFields must be a plain object', currentListFields);
+		return;
+	}
+
 	const field = currentListFields[path];
+
 	if (!field) {
 		console.warn('Invalid Filter path specified:', path);
 		return;
 	}
+
 	return {
 		field,
 		value,

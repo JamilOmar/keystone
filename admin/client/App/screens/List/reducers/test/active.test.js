@@ -23,6 +23,7 @@ describe('<List> reducer active', () => {
 				paths: [],
 				rawInput: '',
 			},
+			cachedQuery: {},
 		});
 	});
 

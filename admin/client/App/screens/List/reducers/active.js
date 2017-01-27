@@ -56,7 +56,7 @@ function active (state = initialState, action) {
 			return assign({}, state, {
 				// Override existing filter with field path,
 				// otherwise add to filters array
-				filters: _.unionWith([action.filters], state.filters, (stateFilter, actionFilter) => {
+				filters: _.unionWith([action.filter], state.filters, (stateFilter, actionFilter) => {
 					return stateFilter.field.path === actionFilter.field.path;
 				}),
 			});
@@ -82,7 +82,6 @@ function active (state = initialState, action) {
 				filters,
 				columns,
 				currentPage,
-				cachedQuery
 			} = action.parsedQuery;
 
 			return assign({}, state, {
@@ -91,11 +90,10 @@ function active (state = initialState, action) {
 				filters,
 				columns,
 				currentPage,
-				cachedQuery
 			});
 		case REPLACE_CACHED_QUERY:
 			return assign({}, state, {
-				cachedQuery: action.cachedQuery
+				cachedQuery: action.cachedQuery,
 			});
 		default:
 			return state;

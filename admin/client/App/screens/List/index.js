@@ -33,15 +33,11 @@ import { listsByPath } from '../../../utils/lists';
 
 import {
 	deleteItems,
-	setActiveColumns,
 	setActiveSearch,
 	setActiveSort,
 	setCurrentPage,
 	selectList,
-	setActiveFilters,
 } from './actions';
-
-import isEqual from 'lodash/isEqual';
 
 import {
 	deleteItem,
